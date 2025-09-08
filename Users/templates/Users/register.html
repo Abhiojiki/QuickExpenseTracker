@@ -1,5 +1,5 @@
  {% extends 'base.html' %}
-    {% comment %} {% load widget_tweaks %} {% endcomment %}
+    {% load widget_tweaks %}
 
 {% block title %}Register{% endblock %}
 
@@ -23,7 +23,7 @@
 
     </form> {% endcomment %}
 
- {% include "C:\Users\Ojas\3D Objects\ResumeProject\ExpenseTracker\Transaction\templates\transaction\includes\header.html" %}
+ {% include "transaction/includes/header.html" %}
 
 
 
@@ -85,7 +85,7 @@
     </main>
 
 
-     {% include "C:\Users\Ojas\3D Objects\ResumeProject\ExpenseTracker\Transaction\templates\transaction\includes\footer.html" %}
+     {% include "transaction/includes/footer.html" %}
 
 {% endblock %} 
 {% block js_file %}

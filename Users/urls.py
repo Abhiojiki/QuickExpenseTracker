@@ -15,5 +15,6 @@ from . import views
 urlpatterns = [
     path('signup/', views.signup_view, name='register'),
     path('login/', views.login_view, name='login'),
+    path('signin/', views.login_view, name='signin'),  # Alias for login
     path('logout/', views.logout_view, name='logout'),
 ]
