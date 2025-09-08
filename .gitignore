@@ -24,8 +24,7 @@ dev_checks/
 
 # Dev helper folders (ignore local dev checks and theme build dir)
 
-# Tailwind/theme app
-theme/
+
 
 # Pytest
 .pytest_cache/
@@ -86,4 +85,4 @@ Thumbs.db
 
 # Local old code artifacts
 oldcode.txt
-oldcod.txt
+

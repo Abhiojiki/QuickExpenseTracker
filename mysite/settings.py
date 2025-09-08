@@ -17,8 +17,8 @@ INSTALLED_APPS = [
  "django.contrib.staticfiles",
     "storages",  # for Spaces (S3-compatible)
     'widget_tweaks',
-    'tailwind',
-    'theme',
+    # 'tailwind',
+    # 'theme',
     "Transaction",
     "Users",
     'rest_framework',
@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
+
 ]
 
 MIDDLEWARE = [
@@ -66,14 +66,22 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
 
+# DATABASES = {
+#     "default": dj_database_url.parse(
+#         os.environ.get("DATABASE_URL"),
+#         conn_max_age=600,
+#         ssl_require=False,  # local False; in prod App Platform often uses SSL
+#     )
+# }
+
+# Database configuration that works both locally and in production
 DATABASES = {
     "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
+        os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),  # fallback to SQLite locally
         conn_max_age=600,
-        ssl_require=False,  # local False; in prod App Platform often uses SSL
+        ssl_require=True if "DATABASE_URL" in os.environ else False,
     )
 }
-
 
 USE_SPACES = os.getenv("USE_SPACES", "False").lower() == "true"
 if USE_SPACES:
