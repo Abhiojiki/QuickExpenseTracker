@@ -62,10 +62,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mysite.wsgi.application"
 
-STORAGES = {
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
-}
-
 
 
 DATABASES = {
@@ -85,16 +81,28 @@ if USE_SPACES:
     AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL", f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com")
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
+
+
+if USE_SPACES:
+    # Use DigitalOcean Spaces for uploaded media
+    default_storage = "storages.backends.s3boto3.S3Boto3Storage"
+    MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
 else:
-        
+    # Use local filesystem for uploaded media
+    default_storage = "django.core.files.storage.FileSystemStorage"
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "media"
-# Keep static on WhiteNoise; only media goes to Spaces
 
-
-    # Keep static on WhiteNoise for simplicity
-    
-    
+STORAGES = {
+    # this is your default (media/uploads) storage
+    "default": {
+        "BACKEND": default_storage,
+    },
+    # this is your static-files storage
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 TAILWIND_APP_NAME = 'theme'
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
@@ -151,10 +159,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # During local development and tests, include the project-level static folder
 STATICFILES_DIRS = [BASE_DIR / "static"]
-
-# Media files (user uploaded)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
