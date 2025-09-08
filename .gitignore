@@ -22,9 +22,9 @@ env/
 # Local dev helper scripts
 dev_checks/
 
-# Dev helper folders (ignore local dev checks and theme build dir)
-
-
+# Dev helper folders (ignore local dev checks and theme build cache)
+# ↓ remove the line “theme” so your theme/ folder is no longer ignored
+# theme
 
 # Pytest
 .pytest_cache/
@@ -65,16 +65,13 @@ htmlcov/
 .coverage
 coverage.xml
 
-# Build
-dist/
-build/
-
 # Misc
 *.egg-info/
 *.cache
 
 # Tailwind / npm build / cache
 /.tailwind/
+theme/.tailwind/
 
 # Windows
 Thumbs.db
@@ -85,4 +82,3 @@ Thumbs.db
 
 # Local old code artifacts
 oldcode.txt
-
