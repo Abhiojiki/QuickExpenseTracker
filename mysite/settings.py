@@ -66,20 +66,13 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
 
-# DATABASES = {
-#     "default": dj_database_url.parse(
-#         os.environ.get("DATABASE_URL"),
-#         conn_max_age=600,
-#         ssl_require=False,  # local False; in prod App Platform often uses SSL
-#     )
-# }
 
-# Database configuration that works both locally and in production
+
 DATABASES = {
     "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),  # fallback to SQLite locally
+        os.environ.get("DATABASE_URL"),
         conn_max_age=600,
-        ssl_require=True if "DATABASE_URL" in os.environ else False,
+        ssl_require=True,
     )
 }
 
@@ -91,37 +84,18 @@ if USE_SPACES:
     AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME", "blr1")
     AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL", f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com")
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
 else:
         
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "media"
 # Keep static on WhiteNoise; only media goes to Spaces
 
-USE_SPACES = os.environ.get("USE_SPACES", "False").lower() == "true"
 
-
-if USE_SPACES:
-    AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
-    AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
-    AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
-    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "nyc3")
-    AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL", f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com")
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     # Keep static on WhiteNoise for simplicity
     
     
-  # Will be overridden by storages backend URL when USE_SPACES is true
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
 TAILWIND_APP_NAME = 'theme'
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 # Password validation
