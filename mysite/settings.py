@@ -66,11 +66,12 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
 
+# Database configuration that works both locally and in production
 DATABASES = {
     "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
+        os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),  # fallback to SQLite locally
         conn_max_age=600,
-        ssl_require=False,  # local False; in prod App Platform often uses SSL
+        ssl_require=True if "DATABASE_URL" in os.environ else False,
     )
 }
 
