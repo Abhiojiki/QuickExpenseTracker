@@ -7,10 +7,9 @@ consistently filter queryset by the currently authenticated user to avoid
 information leakage.
 """
 
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required   
-
-from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -177,7 +176,7 @@ class TransactionUpdateView(LoginRequiredMixin, UpdateView):
 class TransactionDeleteView(LoginRequiredMixin, DeleteView):
     """Delete a Transaction that belongs to the authenticated user."""
     model = Transaction
-
+    template_name = 'transaction/transaction_confirm_delete.html'
     success_url = reverse_lazy('list')
 
     def get_queryset(self):
