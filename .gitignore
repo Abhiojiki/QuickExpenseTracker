@@ -9,6 +9,9 @@ __pycache__/
 # Distribution / packaging
 build/
 dist/
+!static/css/dist/
+!static/css/dist/styles.css
+# dist/
 eggs/
 *.egg-info/
 *.egg
