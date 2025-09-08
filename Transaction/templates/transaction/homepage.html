@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}
+ExpenseTracker Pro - Smart Financial Management
+{% endblock %}
+
+
+
+{% block css_file %}
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #1d4ed8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+{% endblock %}
+
+
+{% block content %}
+    <!-- Header -->
+    {% include "./includes/header.html" %}
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="mb-12">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white">
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl font-bold mb-4">Smart Financial Management</h1>
+                    <p class="text-blue-100 mb-6">Track expenses, manage budgets, and gain insights into your financial habits with our powerful expense tracking solution.</p>
+                    <div class="flex space-x-4">
+                        <a href="{% url 'register' %}">
+                        <button class="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition">
+                            Get Started
+                        </button>
+                        </a>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 mb-1">Total Balance</p>
+                        <h3 class="text-3xl font-bold">$12,486.75</h3>
+                        <p class="text-green-500 mt-2"><i class="fas fa-arrow-up mr-1"></i> 12.5% from last month</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <i class="fas fa-wallet text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 mb-1">Income</p>
+                        <h3 class="text-3xl font-bold">$5,240.00</h3>
+                        <p class="text-green-500 mt-2"><i class="fas fa-arrow-up mr-1"></i> 8.2% from last month</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg">
+                        <i class="fas fa-arrow-down text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 mb-1">Expenses</p>
+                        <h3 class="text-3xl font-bold">$3,186.25</h3>
+                        <p class="text-red-500 mt-2"><i class="fas fa-arrow-up mr-1"></i> 4.7% from last month</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-lg">
+                        <i class="fas fa-arrow-up text-red-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Transactions -->
+        <section class="bg-white rounded-xl shadow-sm p-6 mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Recent Transactions</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 transition">View All</a>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-left text-gray-500 border-b">
+                            <th class="pb-3">Description</th>
+                            <th class="pb-3">Category</th>
+                            <th class="pb-3">Date</th>
+                            <th class="pb-3 text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-4">
+                                <div class="flex items-center">
+                                    <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                        <i class="fas fa-shopping-cart text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Grocery Shopping</p>
+                                        <p class="text-sm text-gray-500">Whole Foods Market</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4">
+                                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Food</span>
+                            </td>
+                            <td class="py-4 text-gray-500">Oct 12, 2023</td>
+                            <td class="py-4 text-right font-medium text-red-500">-$126.43</td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-4">
+                                <div class="flex items-center">
+                                    <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                        <i class="fas fa-briefcase text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Salary Deposit</p>
+                                        <p class="text-sm text-gray-500">Monthly Income</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Income</span>
+                            </td>
+                            <td class="py-4 text-gray-500">Oct 10, 2023</td>
+                            <td class="py-4 text-right font-medium text-green-500">+$3,200.00</td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-4">
+                                <div class="flex items-center">
+                                    <div class="bg-yellow-100 p-2 rounded-lg mr-3">
+                                        <i class="fas fa-bolt text-yellow-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Electricity Bill</p>
+                                        <p class="text-sm text-gray-500">Utility Company</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4">
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Utilities</span>
+                            </td>
+                            <td class="py-4 text-gray-500">Oct 8, 2023</td>
+                            <td class="py-4 text-right font-medium text-red-500">-$89.75</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-8 text-center">Powerful Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {% comment %} <div class="bg-white p-6 rounded-xl shadow-sm card-hover text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-pie text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Visual Reports</h3>
+                    <p class="text-gray-600">Interactive charts and graphs to visualize your spending patterns and financial health.</p>
+                </div> {% endcomment %}
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm card-hover text-center">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bullseye text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Budget Tracking</h3>
+                    <p class="text-gray-600">Set budgets for different categories and track your spending against them in real-time.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm card-hover text-center">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-mobile-alt text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Mobile Access</h3>
+                    <p class="text-gray-600">Access your financial data from anywhere with our responsive mobile-friendly interface.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+        {% include "./includes/footer.html" %}
+
+{% endblock %}
+
+
+    {% block js_file %}
+
+            <!-- FontAwesome CDN for icons -->
+            <script src="https://kit.fontawesome.com/09998db58c.js" crossorigin="anonymous"></script>
+
+        <script>
+            // Mobile menu toggle
+            const btn = document.getElementById('mobile-menu-button');
+            if (btn) {
+                btn.addEventListener('click', function() {
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (mobileMenu) mobileMenu.classList.toggle('hidden');
+                });
+            }
+        </script>
+
+    {% endblock %}

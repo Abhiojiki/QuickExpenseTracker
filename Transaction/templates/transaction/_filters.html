@@ -1,0 +1,20 @@
+<div class="mb-6 bg-white p-4 rounded-lg shadow-sm">
+    <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Start date</label>
+            {{ filter_form.start_date }}
+        </div>
+        <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">End date</label>
+            {{ filter_form.end_date }}
+        </div>
+        <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Category</label>
+            {{ filter_form.category }}
+        </div>
+        <div class="flex space-x-2">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Apply</button>
+            <a href="{% url 'list' %}" class="border px-4 py-2 rounded text-gray-700">Reset</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,30 @@
+{% load static tailwind_tags %}
+<html>
+    <head>
+        <title>
+    {% block title %}
+       
+    {% endblock %}
+        </title>
+
+          {% tailwind_preload_css %}
+      {% tailwind_css %}
+
+
+<style>
+ {%block css_file%}
+ {% endblock %}
+</style>
+
+    </head>
+    <body>
+        {% block content %}
+        {% endblock %}
+      
+{% block js_file %}
+
+{% endblock %}
+
+    </body>
+
+</html>

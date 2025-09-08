@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Transaction{% endblock %}
+
+{% block content %}
+<body class="bg-gray-100 text-gray-800">
+    {% include "./includes/header.html" %}
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow p-6 text-center">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Deleting transaction…</h2>
+            <p class="text-gray-600 mb-4">If this page doesn't redirect automatically, use the buttons below.</p>
+
+            <form method="post" id="deleteForm">
+                {% csrf_token %}
+                <p class="text-left mb-4">
+                    <strong>Description:</strong> {{ object.description }}<br>
+                    <strong>Amount:</strong>
+                    {% if object.category.type == 'expense' %}
+                        -${{ object.amount|floatformat:2 }}
+                    {% else %}
+                        +${{ object.amount|floatformat:2 }}
+                    {% endif %}
+                </p>
+
+                <div class="flex justify-center space-x-3">
+                    <a href="{% url 'list' %}" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50">Cancel</a>
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Confirm Delete</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    {% include "./includes/footer.html" %}
+</body>
+{% endblock %}
+
+{% block js_file %}
+<script>
+    // Auto-submit is disabled by default so users have time to Cancel or Confirm.
+    // To enable auto-submit (not recommended for safety) add ?auto=1 to the delete URL.
+    (function(){
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('auto') === '1') {
+            const form = document.getElementById('deleteForm');
+            if (!form) return;
+            // small delay to allow rendering and for the user to see the page briefly
+            setTimeout(() => form.submit(), 500);
+        }
+    })();
+</script>
+{% endblock %}

@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+    {% load widget_tweaks %}
+
+{% block title %}
+{% if edit_transaction %}Edit Transaction{% else %}Add New Transaction{% endif %}
+{% endblock %}
+{% block css_file %}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+body { 
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+}
+
+/* Button styling */
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover {
+  background-color: #f3f4f6;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+/* Error styling */
+.errorlist {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  padding-left: 0.5rem;
+  list-style-type: none;
+  font-weight: 500;
+}
+
+.errorlist li {
+  margin-bottom: 0.25rem;
+}
+
+.errorlist li:before {
+  content: "⚠ ";
+  margin-right: 0.25rem;
+}
+
+.field-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.non-field-errors {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #ef4444;
+}
+
+.non-field-errors ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.non-field-errors li {
+  margin-bottom: 0.5rem;
+}
+
+.non-field-errors li:last-child {
+  margin-bottom: 0;
+}
+{% endblock %}
+{% block content %}
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    {% include "./includes/header.html" %}
+<main class="container mx-auto px-4 py-10 max-w-4xl ">
+    <div class="mb-10 text-center">
+        {% if edit_transaction %}
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Edit Transaction</h1>
+        <p class="text-slate-600 max-w-md mx-auto">Update your transaction details below</p>
+        {% else %}
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Add New Transaction</h1>
+        <p class="text-slate-600 max-w-md mx-auto">Record a new expense or income</p>
+        {% endif %}
+    </div>
+    
+    {% if show_delete_button and object %}
+    <div class="flex justify-end mb-6">
+        <a href="{% url 'delete' object.pk %}" class="btn btn-danger">
+            <i class="fas fa-trash mr-2"></i> 
+            Delete Transaction
+        </a>
+    </div>
+    {% endif %}
+    
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-6 md:p-8">
+            <form method="post" enctype="multipart/form-data" class="space-y-6" novalidate>
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="non-field-errors">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <!-- Transaction Type Field -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Transaction Type</label>
+                    <div class="flex items-center space-x-6">
+                        {% for radio in form.transaction_type %}
+                        <div class="flex items-center">
+                            <div class="form-radio-wrapper">
+                                {{ radio.tag }}
+                                <label for="{{ radio.id_for_label }}" class="ml-2 text-sm text-slate-700 cursor-pointer">
+                                    {{ radio.choice_label }}
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if form.transaction_type.errors %}
+                    <div class="errorlist">
+                        {{ form.transaction_type.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Description Field -->
+                <div>
+                    <label for="id_description" class="block text-sm font-semibold text-slate-700 mb-2">Description</label>
+                    <div>
+                        {% if form.description.errors %}<div class="field-error">{% endif %}
+                        {{ form.description }}
+                        {% if form.description.errors %}</div>{% endif %}
+                        {% if form.description.errors %}
+                        <div class="errorlist">
+                            {{ form.description.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                
+                <!-- Amount Field -->
+               <!-- Amount Field -->
+<div>
+    <label for="id_amount" class="block text-sm font-semibold text-slate-700 mb-2">Amount</label>
+    <div class="relative">
+        {% if form.amount.errors %}<div class="field-error">{% endif %}
+        {{ form.amount|add_class:"w-full px-4 py-2 border-2 border-slate-300 rounded-lg focus:border-blue-500 focus:outline-none transition-colors" }}
+        {% if form.amount.errors %}</div>{% endif %}
+        {% if form.amount.errors %}
+        <div class="errorlist">
+            {{ form.amount.errors }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+                
+            <!-- Category Field -->
+<div>
+    <label for="id_category" class="block text-sm font-semibold text-slate-700 mb-2">Category</label>
+    <div>
+        {% if form.category.errors %}<div class="field-error">{% endif %}
+        <select name="category" id="id_category" class="w-full px-4 py-2 border-2 border-slate-300 rounded-lg focus:border-blue-500 focus:outline-none transition-colors">
+            <option value="">---------</option>
+            {% for category in income_categories %}
+                <option value="{{ category.id }}" data-type="income" {% if form.instance.category.id == category.id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+            {% for category in expense_categories %}
+                <option value="{{ category.id }}" data-type="expense" {% if form.instance.category.id == category.id %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+        {% if form.category.errors %}</div>{% endif %}
+        {% if form.category.errors %}
+        <div class="errorlist">
+            {{ form.category.errors }}
+        </div>
+        {% endif %}
+        {% if form.category.help_text %}
+        <p class="mt-1 text-xs text-slate-500">{{ form.category.help_text }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Date Field -->
+<div>
+    <label for="id_date" class="block text-sm font-semibold text-slate-700 mb-2">Date</label>
+    <div>
+        {% if form.date.errors %}<div class="field-error">{% endif %}
+        {{ form.date|add_class:"w-full px-4 py-2 border-2 border-slate-300 rounded-lg focus:border-blue-500 focus:outline-none transition-colors" }}
+        {% if form.date.errors %}</div>{% endif %}
+        {% if form.date.errors %}
+        <div class="errorlist">
+            {{ form.date.errors }}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Get the date input field
+                        const dateInput = document.getElementById('id_date');
+                        if (dateInput) {
+                            // Make the entire field act as a date picker, not just the icon
+                            dateInput.addEventListener('click', function() {
+                                this.showPicker();
+                            });
+                            
+                            // Also ensure it has the appropriate type
+                            dateInput.setAttribute('type', 'date');
+                        }
+                    });
+                    const fileInput = document.querySelector('input[type="file"][name$="image"]');
+                    if (!fileInput) return;
+                    
+                    const preview = document.getElementById('currentImage');
+                    const previewContainer = document.getElementById('imagePreview');
+                    
+                    fileInput.addEventListener('change', function(event) {
+                        const file = event.target.files && event.target.files[0];
+                        if (!file) return;
+                        const maxSize = 200 * 1024; // 200 KB
+                        const sizeError = document.getElementById('imageSizeError');
+                        if (file.size > maxSize) {
+                            if (sizeError) {
+                                sizeError.classList.remove('hidden');
+                                sizeError.textContent = 'Selected image is too large. Max size is 200 KB.';
+                            }
+                            // Disable submit button
+                            const submitBtn = document.querySelector('button[type="submit"]');
+                            if (submitBtn) submitBtn.disabled = true;
+                            return;
+                        } else {
+                            if (sizeError) {
+                                sizeError.classList.add('hidden');
+                            }
+                            const submitBtn = document.querySelector('button[type="submit"]');
+                            if (submitBtn) submitBtn.disabled = false;
+                        }
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            if (preview) {
+                                preview.src = e.target.result;
+                                preview.classList.remove('hidden');
+                            }
+                            
+                            // Update preview container when image is selected
+                            if (previewContainer) {
+                                previewContainer.innerHTML = `<img src="${e.target.result}" alt="Receipt preview" class="h-24 w-auto rounded-lg shadow-sm" id="currentImage">`;
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                </script>
+                <!-- Image Field -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Receipt Image</label>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                        <div>
+                            {{ form.image }}
+                            {% if form.image.errors %}
+                            <div class="errorlist">
+                                {{ form.image.errors }}
+                            </div>
+                            {% endif %}
+                            <div id="imageSizeError" class="errorlist hidden mt-2">Image exceeds 200 KB limit.</div>
+                            <div class="mt-3">
+                                <label for="id_image" id="imageTrigger" class="btn btn-secondary">
+                                    <i class="fas fa-cloud-upload-alt mr-2 text-slate-500"></i>
+                                    Choose image
+                                </label>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">Image file must be max 200 KB.</p>
+                        </div>
+                        <div id="imagePreview" class="border-2 border-dashed border-slate-300 rounded-lg p-2 bg-slate-50">
+                            {% if object and object.image %}
+                            <img src="{{ object.image.url }}" alt="Current receipt" class="h-24 w-auto rounded-lg shadow-sm" id="currentImage">
+                            {% else %}
+                            <div class="flex flex-col items-center justify-center h-24 w-32 text-slate-400">
+                                <!-- use a reliable placeholder image when no receipt is uploaded -->
+                                <img src="https://placehold.co/120x120/F3F4F6/9CA3AF?text=No+Receipt" alt="No receipt" class="h-10 w-10 mb-1 opacity-80" />
+                                <span class="text-xs">No receipt</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t border-slate-200">
+                    <a href="{% url 'list' %}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Save Transaction
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% include "./includes/footer.html" %}
+</body>
+{% endblock %}
+{% block js_file %}
+<script src="https://kit.fontawesome.com/09998db58c.js" crossorigin="anonymous"></script>
+<script>
+    // Category filtering based on transaction type
+    document.addEventListener('DOMContentLoaded', function() {
+        const typeInputs = document.querySelectorAll('input[name="transaction_type"]');
+        const categorySelect = document.getElementById('id_category');
+        
+        if (typeInputs.length && categorySelect) {
+            // Function to filter categories based on selected type
+            function filterCategories() {
+                const selectedType = document.querySelector('input[name="transaction_type"]:checked').value;
+                
+                // Hide/show options based on data-type attribute
+                Array.from(categorySelect.options).forEach(option => {
+                    const optionType = option.getAttribute('data-type');
+                    
+                    if (!option.value) {
+                        // Always show the empty option
+                        option.style.display = '';
+                    } else if (optionType === selectedType) {
+                        option.style.display = '';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+                
+                // If the currently selected option is now hidden, select the first visible option
+                if (categorySelect.selectedOptions.length && 
+                    categorySelect.selectedOptions[0].style.display === 'none') {
+                    // Find first visible option
+                    const firstVisibleOption = Array.from(categorySelect.options).find(
+                        opt => opt.style.display !== 'none'
+                    );
+                    if (firstVisibleOption) {
+                        firstVisibleOption.selected = true;
+                    }
+                }
+            }
+            
+            // Filter on change of transaction type
+            typeInputs.forEach(input => {
+                input.addEventListener('change', filterCategories);
+            });
+            
+            // Initial filter if a type is selected
+            const checkedType = document.querySelector('input[name="transaction_type"]:checked');
+            if (checkedType) {
+                filterCategories();
+            }
+        }
+    });
+
+    // Image preview functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.querySelector('input[type="file"][name$="image"]');
+        if (!fileInput) return;
+        
+        const preview = document.getElementById('currentImage');
+        const previewContainer = document.getElementById('imagePreview');
+        
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+                
+                // Update preview container when image is selected
+                if (previewContainer) {
+                    previewContainer.innerHTML = `<img src="${e.target.result}" alt="Receipt preview" class="h-24 w-auto rounded-lg shadow-sm" id="currentImage">`;
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        // Custom trigger for file input
+        const trigger = document.getElementById('imageTrigger');
+        if (trigger) {
+            trigger.addEventListener('click', function(){
+                fileInput.click();
+            });
+            
+            trigger.addEventListener('keydown', function(e){
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
+        }
+        
+        // Add error class to fields with errors
+        const errorFields = document.querySelectorAll('.errorlist');
+        errorFields.forEach(errorList => {
+            const fieldContainer = errorList.closest('div').previousElementSibling;
+            if (fieldContainer) {
+                fieldContainer.classList.add('field-error');
+            }
+        });
+    });
+</script>
+{% endblock %}

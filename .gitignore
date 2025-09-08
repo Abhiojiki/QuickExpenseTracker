@@ -1,0 +1,89 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+eggs/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Local dev helper scripts
+dev_checks/
+
+# Dev helper folders (ignore local dev checks and theme build dir)
+
+# Tailwind/theme app
+theme/
+
+# Pytest
+.pytest_cache/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+/media/
+/staticfiles/
+
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Editor/IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# macOS
+.DS_Store
+
+# Swap files
+*.swp
+
+# Secrets
+.env
+.env.*
+secrets.json
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# Build
+dist/
+build/
+
+# Misc
+*.egg-info/
+*.cache
+
+# Tailwind / npm build / cache
+/.tailwind/
+
+# Windows
+Thumbs.db
+
+# Ignore IDE-specific workspace settings
+.idea/
+.vscode/
+
+# Local old code artifacts
+oldcode.txt
+oldcod.txt
