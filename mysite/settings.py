@@ -17,8 +17,8 @@ INSTALLED_APPS = [
  "django.contrib.staticfiles",
     "storages",  # for Spaces (S3-compatible)
     'widget_tweaks',
-    'tailwind',
-    'theme',
+    # 'tailwind',
+    # 'theme',
     "Transaction",
     "Users",
     'rest_framework',
