@@ -76,7 +76,7 @@ theme/.tailwind/
 # Windows
 Thumbs.db
 
-# Ignore IDE-specific workspace settings
+# Ignore IDE-specsific workspace settings
 .idea/
 .vscode/
 
