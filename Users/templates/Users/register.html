@@ -100,25 +100,6 @@
 
 {% endblock %}
 
-{% comment %} <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Sign Up</title>
-  </head>
-  <body>
-
-<h2>Sign up</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
-  <button type="submit">Create account</button>
-</form>
-<p>Already have an account? <a href="{% url 'login' %}{% if next %}?next={{ next }}{% endif %}">Login</a></p>
-
-</body>
-</html> {% endcomment %}
-
 
 {% comment %} <h2>Register</h2>
 <form method="post" action="{% url 'register' %}">
