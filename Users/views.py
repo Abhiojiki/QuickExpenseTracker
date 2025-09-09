@@ -35,6 +35,8 @@ def signup_view(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+             # Auto-login so user is not bounced back to login page
+            login(request, user)
             messages.success(request, 'Account created!')
             return redirect('list')
     else:
