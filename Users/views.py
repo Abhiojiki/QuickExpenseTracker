@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignupForm, LoginForm
 from django.contrib.auth.decorators import login_required
+# Users/views.py
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 
 
 def signup_view(request):
@@ -44,7 +46,8 @@ def signup_view(request):
     # ensure we render the form for GET and for invalid POST
     return render(request, 'Users/register.html', {'form': form})
 
-
+@ensure_csrf_cookie
+@csrf_protect
 def login_view(request):
     """Render and process the login form.
 
